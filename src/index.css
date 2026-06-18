@@ -1,0 +1,402 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+@layer base {
+  :root {
+    --background: 220 25% 6%;
+    --foreground: 210 30% 92%;
+
+    --card: 220 25% 10%;
+    --card-foreground: 210 30% 92%;
+
+    --popover: 220 25% 10%;
+    --popover-foreground: 210 30% 92%;
+
+    --primary: 174 65% 45%;
+    --primary-foreground: 220 25% 6%;
+
+    --secondary: 220 25% 14%;
+    --secondary-foreground: 210 30% 90%;
+
+    --muted: 220 20% 13%;
+    --muted-foreground: 215 15% 55%;
+
+    --accent: 174 65% 45%;
+    --accent-foreground: 220 25% 6%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 220 20% 16%;
+    --input: 220 20% 16%;
+    --ring: 174 65% 45%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 220 25% 8%;
+    --sidebar-foreground: 210 30% 85%;
+    --sidebar-primary: 174 65% 45%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 25% 14%;
+    --sidebar-accent-foreground: 210 30% 85%;
+    --sidebar-border: 220 20% 16%;
+    --sidebar-ring: 174 65% 45%;
+
+    /* Custom tokens */
+    --hero-gradient: linear-gradient(145deg, hsl(220 25% 6%) 0%, hsl(220 30% 12%) 40%, hsl(215 40% 16%) 70%, hsl(174 40% 14%) 100%);
+    --card-shadow: 0 1px 3px 0 hsl(174 65% 45% / 0.05), 0 0 20px hsl(174 65% 45% / 0.03);
+    --card-shadow-hover: 0 8px 30px -5px hsl(174 65% 45% / 0.15), 0 0 30px hsl(174 65% 45% / 0.08);
+    --glow-accent: 0 0 30px hsl(174 65% 45% / 0.3);
+    --neon-cyan: 174 65% 55%;
+    --neon-blue: 215 80% 55%;
+    --neon-purple: 265 70% 55%;
+  }
+
+  /* Force dark mode - this is a cyberpunk/robot theme */
+  .dark {
+    /* Same as root - always dark */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 0.02em;
+  }
+}
+
+@layer utilities {
+  .hero-gradient {
+    background: var(--hero-gradient);
+  }
+
+  .card-elevated {
+    box-shadow: var(--card-shadow);
+    transition: box-shadow 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+  }
+
+  .card-elevated:hover {
+    box-shadow: var(--card-shadow-hover);
+    border-color: hsl(var(--accent) / 0.4);
+    transform: translateY(-2px);
+  }
+
+  .glow-accent {
+    box-shadow: var(--glow-accent);
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, hsl(174 65% 55%), hsl(174 65% 75%));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-gradient-multi {
+    background: linear-gradient(135deg, hsl(174 65% 55%), hsl(215 80% 60%), hsl(265 70% 60%));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .neon-border {
+    border: 1px solid hsl(var(--accent) / 0.3);
+    box-shadow: inset 0 0 20px hsl(var(--accent) / 0.05), 0 0 20px hsl(var(--accent) / 0.05);
+  }
+
+  .neon-glow-text {
+    text-shadow: 0 0 10px hsl(var(--accent) / 0.5), 0 0 30px hsl(var(--accent) / 0.3);
+  }
+
+  .glass-panel {
+    background: hsl(var(--card) / 0.6);
+    backdrop-filter: blur(20px);
+    border: 1px solid hsl(var(--accent) / 0.15);
+  }
+}
+
+/* ===== ROBOT ANIMATIONS ===== */
+
+.robot-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.robot-svg {
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 0 15px hsl(174 65% 45% / 0.3));
+}
+
+.robot-state-idle {
+  animation: robot-float 3s ease-in-out infinite;
+}
+
+.robot-state-greeting {
+  animation: robot-float 2s ease-in-out infinite;
+}
+
+.robot-state-thinking {
+  animation: robot-think-bob 1.5s ease-in-out infinite;
+}
+
+.robot-state-talking {
+  animation: robot-float 2.5s ease-in-out infinite;
+}
+
+.robot-state-celebrating {
+  animation: robot-celebrate 0.6s ease-in-out infinite;
+}
+
+@keyframes robot-float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes robot-think-bob {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  30% { transform: translateY(-4px) rotate(-2deg); }
+  70% { transform: translateY(-4px) rotate(2deg); }
+}
+
+@keyframes robot-celebrate {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  25% { transform: translateY(-10px) scale(1.05) rotate(-3deg); }
+  75% { transform: translateY(-10px) scale(1.05) rotate(3deg); }
+}
+
+/* Antenna pulse */
+.robot-antenna-light {
+  animation: antenna-pulse 2s ease-in-out infinite;
+}
+
+@keyframes antenna-pulse {
+  0%, 100% { opacity: 0.7; r: 3.5; }
+  50% { opacity: 1; r: 4.5; }
+}
+
+/* Core glow */
+.robot-core {
+  animation: core-glow 2s ease-in-out infinite;
+}
+
+.robot-core-excited {
+  animation: core-glow-fast 0.6s ease-in-out infinite;
+}
+
+@keyframes core-glow {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
+}
+
+@keyframes core-glow-fast {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* Glow ring */
+.robot-glow-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 85%;
+  height: 85%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, hsl(174 65% 45% / 0.12) 0%, transparent 70%);
+  animation: glow-ring-pulse 3s ease-in-out infinite;
+  z-index: 0;
+}
+
+@keyframes glow-ring-pulse {
+  0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 1; transform: translate(-50%, -50%) scale(1.15); }
+}
+
+/* Robot particles */
+.robot-particles {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.robot-particle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  background: hsl(174 65% 55%);
+  animation: orbit-particle 4s linear infinite;
+  animation-delay: var(--delay);
+  opacity: 0;
+}
+
+@keyframes orbit-particle {
+  0% { transform: translate(0, 0) scale(0); opacity: 0; }
+  20% { opacity: 0.8; }
+  80% { opacity: 0.6; }
+  100% { transform: translate(var(--x), var(--y)) scale(1); opacity: 0; }
+}
+
+/* Speech bubble */
+.robot-speech-bubble {
+  position: absolute;
+  top: -10px;
+  right: -60px;
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--accent) / 0.4);
+  border-radius: 12px;
+  padding: 8px 14px;
+  font-size: 13px;
+  color: hsl(var(--foreground));
+  white-space: nowrap;
+  animation: bubble-in 0.4s ease-out;
+  box-shadow: 0 0 20px hsl(var(--accent) / 0.15);
+  z-index: 10;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.robot-speech-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 20px;
+  width: 12px;
+  height: 12px;
+  background: hsl(var(--card));
+  border-right: 1px solid hsl(var(--accent) / 0.4);
+  border-bottom: 1px solid hsl(var(--accent) / 0.4);
+  transform: rotate(45deg);
+}
+
+@keyframes bubble-in {
+  0% { opacity: 0; transform: scale(0.8) translateY(10px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* ===== FLOATING PARTICLES BACKGROUND ===== */
+
+.floating-particles-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.floating-particle {
+  position: absolute;
+  left: var(--fp-x);
+  top: var(--fp-y);
+  width: var(--fp-size);
+  height: var(--fp-size);
+  border-radius: 50%;
+  background: hsl(174 65% 55%);
+  opacity: 0;
+  animation: float-drift var(--fp-duration) ease-in-out infinite;
+  animation-delay: var(--fp-delay);
+}
+
+@keyframes float-drift {
+  0%, 100% {
+    opacity: 0;
+    transform: translateY(0) translateX(0);
+  }
+  25% {
+    opacity: var(--fp-opacity);
+  }
+  50% {
+    opacity: var(--fp-opacity);
+    transform: translateY(-40px) translateX(20px);
+  }
+  75% {
+    opacity: calc(var(--fp-opacity) * 0.5);
+  }
+}
+
+/* Cyber grid */
+.cyber-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(hsl(174 65% 45% / 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, hsl(174 65% 45% / 0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+}
+
+/* ===== ENHANCED COMPONENT STYLES ===== */
+
+/* Glowing input */
+.chat-input-glow:focus-within {
+  box-shadow: 0 0 0 2px hsl(var(--accent) / 0.3), 0 0 30px hsl(var(--accent) / 0.1);
+  border-color: hsl(var(--accent) / 0.5);
+}
+
+/* Scanline effect for hero */
+.scanline-overlay {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    hsl(174 65% 45% / 0.015) 2px,
+    hsl(174 65% 45% / 0.015) 4px
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Typing cursor for chat */
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.typing-cursor::after {
+  content: '▊';
+  animation: cursor-blink 1s step-end infinite;
+  color: hsl(var(--accent));
+  margin-left: 2px;
+}
+
+/* Message bubble neon styles */
+.msg-bot {
+  position: relative;
+}
+
+.msg-bot::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 12px;
+  padding: 1px;
+  background: linear-gradient(135deg, hsl(174 65% 45% / 0.3), hsl(215 80% 55% / 0.1));
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  pointer-events: none;
+}
